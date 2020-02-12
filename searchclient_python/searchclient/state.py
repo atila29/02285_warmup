@@ -5,8 +5,15 @@ from action import ALL_ACTIONS, ActionType
 
 class State:
     _RNG = random.Random(1)
+    
+    #default values, so will not work for levels bigger than 70x70.
     MAX_ROW = 70
     MAX_COL = 70
+    
+    #Save static level information in shared arrays
+        #Data saved in 70x70 array but only loop through actual restrictions
+    walls = [[False for _ in range(70)] for _ in range(70)]
+    goals = [[None for _ in range(70)] for _ in range(70)]
     
     def __init__(self, copy: 'State' = None):
         '''
@@ -30,9 +37,9 @@ class State:
             self.agent_row = None
             self.agent_col = None
             
-            self.walls = [[False for _ in range(State.MAX_COL)] for _ in range(State.MAX_ROW)]
+            # self.walls = [[False for _ in range(State.MAX_COL)] for _ in range(State.MAX_ROW)]
             self.boxes = [[None for _ in range(State.MAX_COL)] for _ in range(State.MAX_ROW)]
-            self.goals = [[None for _ in range(State.MAX_COL)] for _ in range(State.MAX_ROW)]
+            # self.goals = [[None for _ in range(State.MAX_COL)] for _ in range(State.MAX_ROW)]
             
             self.parent = None
             self.action = None
@@ -42,9 +49,9 @@ class State:
             self.agent_row = copy.agent_row
             self.agent_col = copy.agent_col
             
-            self.walls = [row[:] for row in copy.walls]
+            # self.walls = [row[:] for row in copy.walls]
             self.boxes = [row[:] for row in copy.boxes]
-            self.goals = [row[:] for row in copy.goals]
+            # self.goals = [row[:] for row in copy.goals]
             
             self.parent = copy.parent
             self.action = copy.action

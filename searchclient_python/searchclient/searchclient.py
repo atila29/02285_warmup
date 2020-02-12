@@ -20,11 +20,14 @@ class SearchClient:
                 print('Error, client does not support colors.', file=sys.stderr, flush=True)
                 sys.exit(1)
             
+            
             # Read lines for level.
+            max_col = 0
             self.initial_state = State()
             row = 0
             while line:
                 for col, char in enumerate(line):
+                    if col < max_col: max_col = col
                     if char == '+': self.initial_state.walls[row][col] = True
                     elif char in "0123456789":
                         if self.initial_state.agent_row is not None:
@@ -42,6 +45,8 @@ class SearchClient:
                         sys.exit(1)
                 row += 1
                 line = server_messages.readline().rstrip()
+            self.initial_state.MAX_COL = max_col
+            self.initial_state.MAX_ROW = row
         except Exception as ex:
             print('Error parsing level: {}.'.format(repr(ex)), file=sys.stderr, flush=True)
             sys.exit(1)
