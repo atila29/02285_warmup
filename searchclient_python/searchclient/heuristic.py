@@ -33,7 +33,7 @@ class Heuristic(metaclass=ABCMeta):
                         distance_to_agent=abs(row-state.agent_row) + abs(col-state.agent_col)
                         min_distance_agent_to_box = min(min_distance_agent_to_box, distance_to_agent)
                     
-        return sum(distances) +1/1000000*min_distance_agent_to_box
+        return sum(distances) +1/(state.MAX_ROW + state.MAX_COL)*min_distance_agent_to_box
 
     # def h(self, state: 'State') -> 'int':
     #     # Straight Line distance
