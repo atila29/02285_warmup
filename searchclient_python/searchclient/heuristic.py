@@ -16,7 +16,7 @@ class Heuristic(metaclass=ABCMeta):
                     a = col - state.agent_col
                     b = row - state.agent_row
 
-                    return math.sqrt(math.pow(a, 2), math.pow(b,2))
+                    return math.sqrt(math.pow(a, 2)+ math.pow(b,2))
 
     
     @abstractmethod

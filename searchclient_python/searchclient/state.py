@@ -172,4 +172,7 @@ class State:
                 else: line.append(' ')
             lines.append(''.join(line))
         return '\n'.join(lines)
+    
+    def __lt__(self, other):
+        return False
 
