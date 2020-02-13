@@ -49,13 +49,17 @@ class State:
             self.agent_row = copy.agent_row
             self.agent_col = copy.agent_col
             
+            self.MAX_COL = copy.MAX_COL
+            self.MAX_ROW = copy.MAX_ROW
+            
             # self.walls = [row[:] for row in copy.walls]
-            self.boxes = [row[:self.MAX_COL] for row in copy.boxes[:self.MAX_ROW]]
-            # self.boxes = [row[:] for row in copy.boxes]
+            self.boxes = [row[:] for row in copy.boxes]
             # self.goals = [row[:] for row in copy.goals]
             
             self.parent = copy.parent
             self.action = copy.action
+            
+
             
             self.g = copy.g
     
@@ -115,8 +119,8 @@ class State:
         return self.parent is None
     
     def is_goal_state(self) -> 'bool':
-        for row in range(State.MAX_ROW):
-            for col in range(State.MAX_COL):
+        for row in range(self.MAX_ROW):
+            for col in range(self.MAX_COL):
                 goal = self.goals[row][col]
                 box = self.boxes[row][col]
                 if goal is not None and (box is None or goal != box.lower()):

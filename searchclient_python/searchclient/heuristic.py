@@ -2,22 +2,22 @@ from abc import ABCMeta, abstractmethod
 import math
 
 class Heuristic(metaclass=ABCMeta):
+
     def __init__(self, initial_state: 'State'):
-        # Here's a chance to pre-process the static parts of the level.
-        pass
+        self.goal_locations = []
+        #Save locations of goals like e.g. (row,col, a)
+        for row in range(initial_state.MAX_ROW):
+            for col in range(initial_state.MAX_COL):
+                if initial_state.goals[row][col] is not None:
+                    self.goal_locations.append((row,col,initial_state.goals[row][col]))
+  
     
     def h(self, state: 'State') -> 'int':
         # Straight Line distance
-        for row in range(state.MAX_ROW):
-            for col in range(state.MAX_COL):
-                goal = state.goals[row][col]
-                if goal is not None:
-
-                    a = col - state.agent_col
-                    b = row - state.agent_row
-
-                    return math.sqrt(math.pow(a, 2)+ math.pow(b,2))
-
+        for goal in self.goal_locations:
+            a = goal[1] - state.agent_col
+            b = goal[0] - state.agent_row
+            return math.sqrt(math.pow(a, 2)+ math.pow(b,2))
     
     @abstractmethod
     def f(self, state: 'State') -> 'int': pass

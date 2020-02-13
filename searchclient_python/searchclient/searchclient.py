@@ -27,7 +27,7 @@ class SearchClient:
             row = 0
             while line:
                 for col, char in enumerate(line):
-                    if col < max_col: max_col = col
+                    if col+1 > max_col: max_col = col+1
                     if char == '+': self.initial_state.walls[row][col] = True
                     elif char in "0123456789":
                         if self.initial_state.agent_row is not None:
@@ -45,8 +45,17 @@ class SearchClient:
                         sys.exit(1)
                 row += 1
                 line = server_messages.readline().rstrip()
+                
             self.initial_state.MAX_COL = max_col
             self.initial_state.MAX_ROW = row
+            print(row, max_col, file=sys.stderr, flush=True)
+            print("test", file=sys.stderr, flush=True)
+            temp=self.initial_state.boxes
+            self.initial_state.boxes = [[None for _ in range(max_col)] for _ in range(row)]
+            for i in range(row):
+                for j in range(max_col):
+                    self.initial_state.boxes[i][j] = temp[i][j]
+       
         except Exception as ex:
             print('Error parsing level: {}.'.format(repr(ex)), file=sys.stderr, flush=True)
             sys.exit(1)
