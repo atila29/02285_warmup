@@ -50,7 +50,8 @@ class State:
             self.agent_col = copy.agent_col
             
             # self.walls = [row[:] for row in copy.walls]
-            self.boxes = [row[:] for row in copy.boxes]
+            self.boxes = [row[:self.MAX_COL] for row in copy.boxes[:self.MAX_ROW]]
+            # self.boxes = [row[:] for row in copy.boxes]
             # self.goals = [row[:] for row in copy.goals]
             
             self.parent = copy.parent
