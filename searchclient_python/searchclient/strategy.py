@@ -115,7 +115,7 @@ class StrategyBestFirst(Strategy):
         return leaf
     
     def add_to_frontier(self, state: 'State'):
-        temp = (self.heuristic.h(state),state)
+        temp = (self.heuristic.f(state),state)
         heappush(self.frontier, temp)
         self.frontier_set.add(temp[1])
     
