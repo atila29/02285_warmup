@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
 import math
+import sys
 
 class Heuristic(metaclass=ABCMeta):
 
@@ -15,18 +16,24 @@ class Heuristic(metaclass=ABCMeta):
     def h(self, state: 'State') -> 'int':
         # distance from box to nearest goal
         distances = []
-
+        min_distance_agent_to_box = state.MAX_ROW + state.MAX_COL
+        
         for row in range(state.MAX_ROW):
             for col in range(state.MAX_COL):
                 if state.boxes[row][col] is not None:
-                    goals_of_same_type = filter(lambda goal: goal[2].upper() == state.boxes[row][col], self.goal_locations)
-
-                    # sorted_distances = sorted(map(lambda goal: math.sqrt(math.pow(goal[1] - col, 2)+ math.pow(goal[0] - row,2)), goals_of_same_type))
-                    sorted_distances = sorted(map(lambda goal: abs(goal[1] - col) + abs(goal[0] - row), goals_of_same_type))
-
-                    distances.append(sorted_distances[0])
-
-        return sum(distances)
+                    #Box not already in goal position
+                    if(state.goals[row][col] != state.boxes[row][col].lower()):
+                        goals_of_same_type = filter(lambda goal: goal[2].upper() == state.boxes[row][col], self.goal_locations)
+    
+                        # sorted_distances = sorted(map(lambda goal: math.sqrt(math.pow(goal[1] - col, 2)+ math.pow(goal[0] - row,2)), goals_of_same_type))
+                        sorted_distances = sorted(map(lambda goal: abs(goal[1] - col) + abs(goal[0] - row), goals_of_same_type))
+    
+                        distances.append(sorted_distances[0])
+                        
+                        distance_to_agent=abs(row-state.agent_row) + abs(col-state.agent_col)
+                        min_distance_agent_to_box = min(min_distance_agent_to_box, distance_to_agent)
+                    
+        return sum(distances) +1/1000000*min_distance_agent_to_box
 
     # def h(self, state: 'State') -> 'int':
     #     # Straight Line distance
