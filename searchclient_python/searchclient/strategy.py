@@ -107,6 +107,7 @@ class StrategyBestFirst(Strategy):
         raise NotImplementedError
     
     def get_and_remove_leaf(self) -> 'State':
+        self.heuristic.h
         raise NotImplementedError
     
     def add_to_frontier(self, state: 'State'):

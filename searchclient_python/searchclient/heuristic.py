@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-
+import math
 
 class Heuristic(metaclass=ABCMeta):
     def __init__(self, initial_state: 'State'):
@@ -7,7 +7,17 @@ class Heuristic(metaclass=ABCMeta):
         pass
     
     def h(self, state: 'State') -> 'int':
-        raise NotImplementedError
+        # Straight Line distance
+        for row in range(state.MAX_ROW):
+            for col in range(state.MAX_COL):
+                goal = state.goals[row][col]
+                if goal is not None:
+
+                    a = col - state.agent_col
+                    b = row - state.agent_row
+
+                    return math.sqrt(math.pow(a, 2), math.pow(b,2))
+
     
     @abstractmethod
     def f(self, state: 'State') -> 'int': pass
